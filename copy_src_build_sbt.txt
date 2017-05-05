@@ -1,0 +1,25 @@
+
+// command : sbt "genTables/compile"
+lazy val genTables = (project in file("valet/valet-gen-slick-tables"))
+  .settings(
+    name         := "valet-gen-slick-tables",
+    scalaVersion := "2.11.8",
+    libraryDependencies ++= List(
+      "com.typesafe.slick" %% "slick" % "3.1.1",
+      "com.typesafe.slick" %% "slick-codegen" % "3.1.1",
+      "org.slf4j" % "slf4j-nop" % "1.7.19",
+      "mysql" % "mysql-connector-java" % "5.1.40"
+    ),
+    sourceGenerators in Compile <+= (sourceManaged, dependencyClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>
+      val outputDir = file(".").getCanonicalPath() + "/app"
+      val url = "jdbc:mysql://127.0.0.1/test?characsbt ruterEncoding=UTF8&autoReconnect=true&useSSL=false"
+      val jdbcDriver = "com.mysql.jdbc.Driver"
+      val slickDriver = "slick.driver.MySQLDriver"
+      val pkg = "models.entity"
+      val user = "test"
+      val password = "test"
+      toError(r.run("slick.codegen.SourceCodeGenerator", cp.files, Array(slickDriver, jdbcDriver, url, outputDir, pkg, user, password), s.log))
+      val fname = outputDir + "/models/entity/Tables.scala"
+      Seq(file(fname))
+    }
+  )
