@@ -17,7 +17,7 @@ lazy val root = (project in file("."))
       val user = "test"
       val password = "test"
       toError(r.run("slick.codegen.SourceCodeGenerator", cp.files, Array(slickDriver, jdbcDriver, url, outputDir, pkg, user, password), s.log))
-      val fname = outputDir + "/models/entity/Tables.scala"
+      val fname = outputDir + "/models/autogen/tables/Tables.scala"
       Seq(file(fname))
     }
   )
