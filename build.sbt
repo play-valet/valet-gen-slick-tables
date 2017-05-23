@@ -13,7 +13,7 @@ lazy val root = (project in file("."))
       val url = "jdbc:mysql://127.0.0.1/test?characsbt ruterEncoding=UTF8&autoReconnect=true&useSSL=false"
       val jdbcDriver = "com.mysql.jdbc.Driver"
       val slickDriver = "slick.driver.MySQLDriver"
-      val pkg = "models.entity"
+      val pkg = "models.autogen.tables"
       val user = "test"
       val password = "test"
       toError(r.run("slick.codegen.SourceCodeGenerator", cp.files, Array(slickDriver, jdbcDriver, url, outputDir, pkg, user, password), s.log))
